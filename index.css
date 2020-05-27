@@ -1,12 +1,46 @@
 /* For mobile phones: */
 
 body, html {
-    font-family: "Lucida Sans", sans-serif;
+    font-family: "Karma", sans-serif;
     height:100%;
     width:100%;
     margin:0;
     border:0;
     padding:0;
+    background-image: "https://i.pinimg.com/originals/74/ed/8c/74ed8c6205cda8e58f7e1f767f56ba41.jpg"
+    
+  }
+
+  
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: "Karma", sans-serif
+  }
+
+.w3-bar-block .w3-bar-item {
+  padding:20px
+}
+
+  .img-width {
+    display: block;
+    max-width:50%;
+    max-height:50%;
+    width: 200px;
+    height: 200px;
+  }
+
+  h1 {
+    text-transform: uppercase;
+  }
+
+  #more-info {
+    color: #333;
+    text-decoration: none;
+  }
+  
+
+  #more-info:hover {
+    color: #ccc;
   }
 
 * {
@@ -16,6 +50,8 @@ body, html {
   .main {
     margin-top: 48px; /* Added a top margin to avoid content overlay */
   }
+
+  
 
   .row::after {
     content: "";
@@ -41,7 +77,10 @@ body, html {
 
 
  
-
+/* .show{
+  max-height:50%;
+  max-width:50%;
+} */
   
 
   
@@ -120,10 +159,18 @@ body, html {
       float: right;
       display: block;
     }
-  }
-  
-  /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-  @media screen and (max-width: 600px) {
+
+    /* .mobile-only {
+      
+     max-width: 300px;
+     max-height: 100px;
+    
+   
+      
+    } */
+
+    
+
     .topnav.responsive {position: relative;}
     .topnav.responsive a.icon {
       position: absolute;

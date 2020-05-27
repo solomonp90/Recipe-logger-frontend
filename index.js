@@ -1,12 +1,20 @@
-const mainDiv = document.getElementById('main')
+// const mainDiv = document.getElementById('main')
+const mainDiv = document.getElementById('w3-main')
+const mealsDiv = document.getElementById('meals')
+
+
 // open navigation menu
 openNav = () => {
     document.getElementsByClassName("topnav")[0].classList.toggle("responsive");
   }
 
   home = () =>{
-    let mealsDiv = document.createElement('div')
-    mealsDiv.id = "meals-div"
+    // for recreating style =====
+    // let mealsDiv = document.createElement('div')
+    // mealsDiv.id = "meals-div"
+    // ===========
+
+
     console.log(mealsDiv)
     fetch('http://localhost:3000/meals')
     .then(r => r.json())
@@ -14,19 +22,31 @@ openNav = () => {
       console.log(mealsArr)
       mealsArr.forEach((meal)=>{
     
-        mealsDiv.innerHTML += `<div class="col-6" >
-          <h1 >${meal.name}</h1>
-          <div class="row" >
-          <img src="${meal.image}" height="200px" width="200px" class="col-3" >
+        mealsDiv.innerHTML +=
+
+        //  `<div class="col-6 food-item" >
+
+        
+        //   <h1 >${meal.name}</h1>
           
-          <p  class="col-9">${meal.kind}</p>
+        //   <img src="${meal.image}" class="img-width" >
           
-          <a  href="#meals/${meal.id}" data-id="${meal.id}" id="more-info">see more</a>
+        //   <p  class="col-9">${meal.kind}</p>
           
-          </div>
+        //   <a  href="#meals/${meal.id}" data-id="${meal.id}" id="more-info">see more</a>
+          
+          
+        // </div>`
+
+        `<div class="w3-quarter" style="height: 400px">
+        <img src="${meal.image}" alt="${meal.name}" style="width:100% ;height:50%">
+        <h3>${meal.name}</h3>
+        <p>${meal.kind}.</p>
+        <a  href="#meals/${meal.id}" data-id="${meal.id}" id="more-info">see more</a>
         </div>`
+        // <button data-id="${meal.id}" id="more-info">see more</button>
       })
-      mainDiv.append(mealsDiv)
+      // mainDiv.append(mealsDiv)
     }
     )
     
@@ -36,7 +56,7 @@ openNav = () => {
 
 
     mainDiv.addEventListener('click',(evt) => {
-        console.log("evt",evt)
+        console.log("evt",evt.target.id)
        
         let id = evt.target.dataset.id
         let target = evt.target.id
@@ -46,17 +66,59 @@ openNav = () => {
             .then(r => r.json())
             .then((meal)=>{
               console.log(meal)
-              mainDiv.innerHTML = `<div class="col-12">
-                <h1>${meal.name}</h1>
-                <img src="${meal.image}" height="300px" width="300px"/>
-                <p>${meal.description}</p>
-              </div>`
+              mainDiv.innerHTML = `<div class="w3-container w3-padding-32 w3-center">  
+       <h2 style="text-align:center">${meal.name}</h2>
+      <img src="${meal.image}"  align="middle" width="700" height="600">
+      <div class="w3-padding-32 info">
+        <h6><i>${meal.kind}</i></h6>
+        <p>${meal.description}.</p>
+      </div>
+       <h2> Recipes 📝 </h2>
+      <p> <ul id="recipes">
+      `
+      meal.recipes.forEach(recipe => {
+        mainDiv.innerHTML += `<li data-id="${meal.id}" data-id="${recipe.id}"> ${recipe.ingredients} - <i>${recipe.name}, ${recipe.content} </i></li>`
+      })
+      
+      mainDiv.innerHTML += `
+      <br>
+      <br>
+      </ul></p>
+      <div class="container" id="form-container">
+        <form data-id="${meal.id}" id="new-recipe"><h3>Tell us how you feel! 💭 </h3>
+            <div class="form-group">
+              <textarea class="form-control" name="recipe" id="recipe-content" rows="3"></textarea>
+            <div class="form-group">
+              <label for="name">Name 📛</label>
+              <input type="text" class="form-control" name="name">
+            </div><br>
+            <div class="form-group">
+              <label for="location">Location📍</label>
+              <input type="text" class="form-control" name="location">
+            </div><br>
+          <button type="submit" id="post-button">Post! 💌</button>
+          </div>
+          </form>
+      </div>
+    `
+
             })
           }
-      
-      
-      
+    
       })
+
+      
+      
+
+
+
+
+
+
+
+
+
+
 
 
 
