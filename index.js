@@ -77,7 +77,7 @@ openNav = () => {
       <p> <ul id="recipes">
       `
       meal.recipes.forEach(recipe => {
-        mainDiv.innerHTML += `<li data-id="${meal.id}" data-id="${recipe.id}"> ${recipe.ingredients} - <i>${recipe.name}, ${recipe.content} </i></li>`
+        mainDiv.innerHTML += `<li data-id="${meal.id}" data-id="${recipe.id}"> <b>Ingredients:</b><br> ${recipe.ingredients} - <i>${recipe.name}</i><p><b>Instructions:</b><br>${recipe.instructions}</p></li>`
       })
       
       mainDiv.innerHTML += `
@@ -85,9 +85,13 @@ openNav = () => {
       <br>
       </ul></p>
       <div class="container" id="form-container">
-        <form data-id="${meal.id}" id="new-recipe"><h3>Tell us how you feel! 💭 </h3>
+        <form data-id="${meal.id}" id="new-recipe"><h3>Leave a recipe! 📝 </h3>
             <div class="form-group">
-              <textarea class="form-control" name="recipe" id="recipe-content" rows="3"></textarea>
+              <label for="ingredients">Ingredients🌽</label>
+              <textarea class="form-control" name="ingredients" id="recipe-ingredients" rows=2></textarea>
+            <div class="form-group">
+              <label for="instructions">Instructions📝</label>
+              <textarea class="form-control" name="instructions" id="recipe-instructions" rows="2"></textarea>
             <div class="form-group">
               <label for="name">Name 📛</label>
               <input type="text" class="form-control" name="name">
