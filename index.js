@@ -84,6 +84,7 @@ openNav = () => {
      
     navigationHandler()
 
+
     addMealHtml = () => {
       mainDiv.innerHTML = `<div class="col-12">
       <form class=""  id="add-meal-form">
@@ -191,18 +192,20 @@ openNav = () => {
       fetch(`http://localhost:3000/meals/${id}`,{
                                method: "DELETE"
                              })
-    // while (mainDiv.firstChild) {
-    //   mainDiv.removeChild(mainDiv.firstChild);
-    // }
-    // let mealsDiv = document.createElement('div')
-    // mealsDiv.className = "w3-row-padding w3-padding-16 w3-center"
-    // mealsDiv.id = "meals"
-    // mainDiv.append(mealsDiv)
-    
-    // console.log(document)
-    // home()
     
     }
+
+    deleteRecipe = (recipeId) =>{
+      let id = JSON.parse(localStorage.getItem('meal')).id;
+      console.log("from deleteMeal!!!",id)
+      fetch(`http://localhost:3000/recipes/${recipeId}`,{
+                               method: "DELETE"
+                             })
+    
+    
+    }
+
+    
 
     
     confirmDelete = () =>{
@@ -255,37 +258,159 @@ openNav = () => {
   <p>${meal.description}.</p>
 </div>
  <h2> Recipes 📝 </h2>
-<p> <ul id="recipes">
+
+ <ul id="recipes">
 `
+
+let recipesUl = document.getElementById('recipes')
+console.log(recipesUl)
+
 meal.recipes.forEach(recipe => {
-  mainDiv.innerHTML += `<li data-id="${meal.id}" data-id="${recipe.id}"> <b>Ingredients:</b><br> ${recipe.ingredients} - <i>${recipe.name}</i><p><b>Instructions:</b><br>${recipe.instructions}</p></li>`
+  recipesUl.innerHTML += `<div class="col-12">
+
+  <li data-id="${recipe.id}" >  
+   <b>Ingredients:</b>
+   <br> ${recipe.ingredients} - <i>${recipe.name}</i>
+   <p>
+   <b>Instructions:</b><br>
+   ${recipe.instructions}</p>
+    <button id="edit-recipe-button ${recipe.id}" data-id="${recipe.id}" class="show">Edit</button>
+   </li>
+   <div id="edit-recipe-div ${recipe.id}" class="hide">
+
+   </div>
+
+  </div>`
+
+  
 })
+
+
+
+mainDiv.addEventListener('click',(evt) => {
+  let recipeId = evt.target.dataset.id
+  let input = evt.target.id
+  let editRecipeButton = document.getElementById(`edit-recipe-button ${recipeId}`)
+  let editRecipeDiv = document.getElementById(`edit-recipe-div ${recipeId}`)
+
+ 
+    
+  
+  
+  console.log("evt.target.dataset.id/recipeID:",recipeId,"evt.target.id/input:",input)
+  console.log("editrecipeButton:",editRecipeButton)
+  if(input === `edit-recipe-button ${recipeId}` && editRecipeDiv.children.length === 0){
+    editRecipeDiv.className = "show"
+    editRecipeButton.className = "hide"
+
+   
+
+   
+    let editRecipeForm = document.createElement('form')
+    editRecipeForm.className = `edit-recipe-form ${recipeId}`
+    editRecipeForm.innerHTML = ` <div class="form-group">
+    <label for="ingredients">Ingredients🌽</label>
+    <textarea class="form-control" name="ingredients" id="recipe-ingredients" rows=2></textarea>
+  <div class="form-group">
+    <label for="instructions">Instructions📝</label>
+    <textarea class="form-control" name="instructions" id="recipe-instructions" rows="2"></textarea>
+  <div class="form-group">
+    <label for="name">Name 📛</label>
+    <input type="text" class="form-control" name="name">
+  </div><br>
+  
+<button  id="post-button ${recipeId}">Post! 💌</button>
+<a href="file:///Users/solomonpena/Documents/recipe-logger-frontend/index.html" id="delete-button ${recipeId}" onclick={deleteRecipe(${recipeId})}>
+<button>Delete!!</button>
+</a>
+
+</div>`
+
+
+editRecipeDiv.append(editRecipeForm)
+
+console.log("recipe div child:",editRecipeDiv.children.length)
+
+    editRecipeForm.addEventListener('submit',(evt) => {
+      evt.preventDefault()
+       console.log("inside evt listner:",evt.target)
+
+      let nameInput = evt.target["name"].value ? evt.target["name"].value : recipe.name
+      let ingredientsInput = evt.target["ingredients"].value ? evt.target["ingredients"].value : recipe.ingredients
+      let instructionsInput = evt.target["instructions"].value ? evt.target["instructions"].value : recipe.instructions
+
+      console.log(evt.target.dataset.id)
+    editRecipe(recipeId,nameInput,ingredientsInput,instructionsInput,meal.id,editRecipeDiv)
+    }
+    )
+    
+   
+  }
+}
+)
+
+
+
+{/* <form data-id="${recipe.id}" id="edit-recipe-form ${recipe.id}" class="show"><h3>Edit recipe! 📝 </h3>
+   <div class="form-group">
+     <label for="ingredients">Ingredients🌽</label>
+     <textarea class="form-control" name="ingredients" id="recipe-ingredients" rows=2></textarea>
+   <div class="form-group">
+     <label for="instructions">Instructions📝</label>
+     <textarea class="form-control" name="instructions" id="recipe-instructions" rows="2"></textarea>
+   <div class="form-group">
+     <label for="name">Name 📛</label>
+     <input type="text" class="form-control" name="name">
+   </div><br>
+   
+ <button  id="post-button ${recipe.id}">Post! 💌</button>
+ </div>
+ </form> */}
+
+
+
+
+
 
 mainDiv.innerHTML += `
 <br>
 <br>
-</ul></p>
+</ul>
 <div class="container" id="form-container">
-  <form data-id="${meal.id}" id="new-recipe"><h3>Leave a recipe! 📝 </h3>
-      <div class="form-group">
-        <label for="ingredients">Ingredients🌽</label>
-        <textarea class="form-control" name="ingredients" id="recipe-ingredients" rows=2></textarea>
-      <div class="form-group">
-        <label for="instructions">Instructions📝</label>
-        <textarea class="form-control" name="instructions" id="recipe-instructions" rows="2"></textarea>
-      <div class="form-group">
-        <label for="name">Name 📛</label>
-        <input type="text" class="form-control" name="name">
-      </div><br>
-      <div class="form-group">
-        <label for="location">Location📍</label>
-        <input type="text" class="form-control" name="location">
-      </div><br>
-    <button type="submit" id="post-button">Post! 💌</button>
-    </div>
-    </form>
+<form data-id="${meal.id}" id="new-recipe"><h3>Leave a recipe! 📝 </h3>
+<div class="form-group">
+<label for="ingredients">Ingredients🌽</label>
+<textarea class="form-control" name="ingredients" id="recipe-ingredients" rows=2></textarea>
+<div class="form-group">
+<label for="instructions">Instructions📝</label>
+<textarea class="form-control" name="instructions" id="recipe-instructions" rows="2"></textarea>
+<div class="form-group">
+<label for="name">Name 📛</label>
+<input type="text" class="form-control" name="name">
+</div><br>
+
+<button type="submit" id="post-button">Post! 💌</button>
+</div>
+</form>
 </div>
 `
+let newRecipeForm = mainDiv.querySelector('#new-recipe')
+
+
+newRecipeForm.addEventListener('submit',(evt) => {
+  evt.preventDefault()
+  
+  let nameInput = evt.target["name"].value
+  let ingredientsInput = evt.target["ingredients"].value
+  let instructionsInput = evt.target["instructions"].value
+
+  newRecipe(meal,meal.recipes,nameInput,ingredientsInput,instructionsInput)
+}
+)
+
+
+
+
 
 localStorage.setItem('meal', JSON.stringify(meal));
 
