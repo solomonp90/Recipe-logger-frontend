@@ -14,7 +14,6 @@ newRecipe = (meal,recipes,name,ingredients,instructions) =>{
     })
   }).then(r => r.json())
   .then((recipe) => {
-    //   console.log(recipe)
       showMeal(meal_id)
   }
   )

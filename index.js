@@ -1,11 +1,7 @@
-// const mainDiv = document.getElementById('main')
 const mainDiv = document.getElementById('w3-main')
-// let mealsDiv = document.getElementById('meals')
 let navigation = document.getElementById('navigation')
-
 let editDiv = document.getElementById('edit-meal-form')
 let deleteDiv = document.getElementById('delete-meal-form')
-// const mealsDiv = document.querySelector('#meals')
 let mealsDiv = document.getElementById('meals')
 
 
@@ -31,35 +27,21 @@ openNav = () => {
     <h3>${meal.name}</h3>
     <p>${meal.kind}.</p>
     <a  href="#meals/${meal.id}" data-id="${meal.id}" id="more-info">see more</a>
-    </div>`
-
-        // <button data-id="${meal.id}" id="more-info">see more</button>
-       
+    </div>`      
       })
-      // mainDiv.append(mealsDiv)
-    }
-    )
-    
-      }
+    })}
     
     home()
 
-
     mainDiv.addEventListener('click',(evt) => {
- 
         let id = evt.target.dataset.id
-        let target = evt.target.id
-        
+        let target = evt.target.id    
         if(target==="more-info"){ showMeal(id) }
-
       })
 
- 
      navigationHandler = ()=>{
        navigation.addEventListener('click',(evt) => {
          let input = evt.target.id    
-          //  if(input==="addMeal"){ addMealHtml();}
-          //  if(input==="editMeal"){console.log("woo") }
 
            switch(input){
             case "addMeal" :
@@ -111,7 +93,6 @@ openNav = () => {
   
         mealForm.addEventListener('submit',(evt) => {
           evt.preventDefault()
-          // console.log("target:",evt.target)
           let nameInput = evt.target["name"].value
     let imageInput = evt.target["image"].value
     let kindInput = evt.target["kind"].value
@@ -126,8 +107,7 @@ openNav = () => {
          name :nameInput,
          image:imageInput,
          kind:kindInput,
-         description:descInput
-         
+         description:descInput         
       })
     })
     .then(res => res.json())
@@ -136,16 +116,9 @@ openNav = () => {
   while (mainDiv.firstChild) {
     mainDiv.removeChild(mainDiv.firstChild);
   }
- 
   showMeal(meal.id)
-
-    }
-    )
-  
-        }
-        )
-    
-    }
+    }) 
+        })}
 
     editMeal = (meal)=>{
 
@@ -167,23 +140,15 @@ openNav = () => {
              image:imageInput,
              kind:kindInput,
              description:descInput,
-             meal_id:id
-             
+             meal_id:id           
           })
         })
         .then(res => res.json())
         .then((meal) => {
           editDiv.className = "hide"
           showMeal(meal.id)
-        }
-        )
-      
-
-      }
-      )
-
-    }
-
+        })     
+      })}
 
     deleteMeal = () =>{
       let id = JSON.parse(localStorage.getItem('meal')).id;
@@ -192,7 +157,6 @@ openNav = () => {
       fetch(`http://localhost:3000/meals/${id}`,{
                                method: "DELETE"
                              })
-    
     }
 
     deleteRecipe = (recipeId) =>{
@@ -200,14 +164,9 @@ openNav = () => {
       console.log("from deleteMeal!!!",id)
       fetch(`http://localhost:3000/recipes/${recipeId}`,{
                                method: "DELETE"
-                             })
-    
-    
+                             }) 
     }
 
-    
-
-    
     confirmDelete = () =>{
       deleteDiv.addEventListener('click',(evt) => {
         console.log(evt.target.id)
@@ -220,25 +179,15 @@ openNav = () => {
             case "no-button":
               console.log("from confirm delete")
               break;
-        }
-       
-      }
-      )
-    }
-
-
-
-
-
-
+        }}
+      )}
 
       showMeal = (id) => {
        
       fetch(`http://localhost:3000/meals/${id}`)
       .then(r => r.json())
       .then((meal)=>{
-        // console.log(meal)
-        
+
         navigation.innerHTML = ` <div class="topnav " id="myTopnav">
         <a href="file:///Users/solomonpena/Documents/recipe-logger-frontend/index.html" class="active" id="home">Home</a>
         <a href="#addMeal" id="addMeal">Add Meal</a>
@@ -285,27 +234,18 @@ meal.recipes.forEach(recipe => {
   
 })
 
-
-
 mainDiv.addEventListener('click',(evt) => {
   let recipeId = evt.target.dataset.id
   let input = evt.target.id
   let editRecipeButton = document.getElementById(`edit-recipe-button ${recipeId}`)
   let editRecipeDiv = document.getElementById(`edit-recipe-div ${recipeId}`)
-
  
-    
-  
-  
   console.log("evt.target.dataset.id/recipeID:",recipeId,"evt.target.id/input:",input)
   console.log("editrecipeButton:",editRecipeButton)
   if(input === `edit-recipe-button ${recipeId}` && editRecipeDiv.children.length === 0){
     editRecipeDiv.className = "show"
     editRecipeButton.className = "hide"
-
-   
-
-   
+ 
     let editRecipeForm = document.createElement('form')
     editRecipeForm.className = `edit-recipe-form ${recipeId}`
     editRecipeForm.innerHTML = ` <div class="form-group">
@@ -326,10 +266,7 @@ mainDiv.addEventListener('click',(evt) => {
 
 </div>`
 
-
 editRecipeDiv.append(editRecipeForm)
-
-console.log("recipe div child:",editRecipeDiv.children.length)
 
     editRecipeForm.addEventListener('submit',(evt) => {
       evt.preventDefault()
@@ -339,38 +276,9 @@ console.log("recipe div child:",editRecipeDiv.children.length)
       let ingredientsInput = evt.target["ingredients"].value ? evt.target["ingredients"].value : recipe.ingredients
       let instructionsInput = evt.target["instructions"].value ? evt.target["instructions"].value : recipe.instructions
 
-      console.log(evt.target.dataset.id)
     editRecipe(recipeId,nameInput,ingredientsInput,instructionsInput,meal.id,editRecipeDiv)
-    }
-    )
-    
-   
-  }
-}
-)
-
-
-
-{/* <form data-id="${recipe.id}" id="edit-recipe-form ${recipe.id}" class="show"><h3>Edit recipe! 📝 </h3>
-   <div class="form-group">
-     <label for="ingredients">Ingredients🌽</label>
-     <textarea class="form-control" name="ingredients" id="recipe-ingredients" rows=2></textarea>
-   <div class="form-group">
-     <label for="instructions">Instructions📝</label>
-     <textarea class="form-control" name="instructions" id="recipe-instructions" rows="2"></textarea>
-   <div class="form-group">
-     <label for="name">Name 📛</label>
-     <input type="text" class="form-control" name="name">
-   </div><br>
-   
- <button  id="post-button ${recipe.id}">Post! 💌</button>
- </div>
- </form> */}
-
-
-
-
-
+    })
+    }})
 
 mainDiv.innerHTML += `
 <br>
@@ -396,7 +304,6 @@ mainDiv.innerHTML += `
 `
 let newRecipeForm = mainDiv.querySelector('#new-recipe')
 
-
 newRecipeForm.addEventListener('submit',(evt) => {
   evt.preventDefault()
   
@@ -405,8 +312,7 @@ newRecipeForm.addEventListener('submit',(evt) => {
   let instructionsInput = evt.target["instructions"].value
 
   newRecipe(meal,meal.recipes,nameInput,ingredientsInput,instructionsInput)
-}
-)
+})
 
 
 
@@ -419,6 +325,3 @@ editMeal(meal)
       })
     }
 
-
-    // let skater1 = JSON.parse(localStorage.getItem('skater'));
-    
