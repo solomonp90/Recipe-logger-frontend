@@ -50,6 +50,9 @@ openNav = () => {
               deleteDiv.className = "hide"
               editDiv.className = "hide"
               break;
+           case "home" :
+                home();
+              break;
               case "editMeal":
                 openNav()
                 deleteDiv.className ="hide"
@@ -190,7 +193,7 @@ openNav = () => {
       .then((meal)=>{
 
         navigation.innerHTML = ` <div class="topnav " id="myTopnav">
-        <a href="https://solomonp90.github.io/Recipe-logger-frontend/" class="active" id="home">Home</a>
+        <a href="#home" class="active" id="home">Home</a>
         <a href="#addMeal" id="addMeal">Add Meal</a>
         <a href="#editMeal" id="editMeal">Edit Meal</a>
         <a href="#delete" id="deleteMeal">Delete</a>
