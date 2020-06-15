@@ -1,3 +1,4 @@
+const api_url = `https://recipe-logger.herokuapp.com/`
 const mainDiv = document.getElementById('w3-main')
 let navigation = document.getElementById('navigation')
 let editDiv = document.getElementById('edit-meal-form')
@@ -15,7 +16,7 @@ openNav = () => {
 
     let mealsDiv = document.getElementById('meals')
 
-    fetch('http://localhost:3000/meals')
+    fetch(`${api_url}/meals`)
     .then(r => r.json())
     .then((mealsArr) => {
       console.log(mealsArr)
@@ -98,7 +99,7 @@ openNav = () => {
     let kindInput = evt.target["kind"].value
     let descInput = evt.target["description"].value
       
-          fetch(`http://localhost:3000/meals`, {
+          fetch(`${api_url}/meals`, {
       method:'POST',
      headers: { 
          'Content-type': 'application/json'
@@ -130,7 +131,7 @@ openNav = () => {
         let kindInput = evt.target["kind"].value ? evt.target["kind"].value : meal.kind
         let descInput = evt.target["description"].value ? evt.target["description"].value : meal.description
           
-              fetch(`http://localhost:3000/meals/${id}`, {
+              fetch(`${api_url}/meals/${id}`, {
           method:'PATCH',
          headers: { 
              'Content-type': 'application/json'
@@ -154,7 +155,7 @@ openNav = () => {
       let id = JSON.parse(localStorage.getItem('meal')).id;
       deleteDiv.className = "hide"
       console.log("from deleteMeal!!!",id)
-      fetch(`http://localhost:3000/meals/${id}`,{
+      fetch(`${api_url}/meals/${id}`,{
                                method: "DELETE"
                              })
     }
@@ -162,7 +163,7 @@ openNav = () => {
     deleteRecipe = (recipeId) =>{
       let id = JSON.parse(localStorage.getItem('meal')).id;
       console.log("from deleteMeal!!!",id)
-      fetch(`http://localhost:3000/recipes/${recipeId}`,{
+      fetch(`${api_url}/recipes/${recipeId}`,{
                                method: "DELETE"
                              }) 
     }
@@ -184,7 +185,7 @@ openNav = () => {
 
       showMeal = (id) => {
        
-      fetch(`http://localhost:3000/meals/${id}`)
+      fetch(`${api_url}/meals/${id}`)
       .then(r => r.json())
       .then((meal)=>{
 
@@ -324,4 +325,3 @@ localStorage.setItem('meal', JSON.stringify(meal));
 editMeal(meal)
       })
     }
-
