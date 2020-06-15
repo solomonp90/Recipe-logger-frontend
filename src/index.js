@@ -190,7 +190,7 @@ openNav = () => {
       .then((meal)=>{
 
         navigation.innerHTML = ` <div class="topnav " id="myTopnav">
-        <a href="/" class="active" id="home">Home</a>
+        <a href="https://solomonp90.github.io/Recipe-logger-frontend/" class="active" id="home">Home</a>
         <a href="#addMeal" id="addMeal">Add Meal</a>
         <a href="#editMeal" id="editMeal">Edit Meal</a>
         <a href="#delete" id="deleteMeal">Delete</a>
